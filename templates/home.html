@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Visualize Code Review Comments</title>
+
+</head>
+
+<body>
+
+<div>
+    <div id="spinner" hidden style="position: fixed; left: 50%; top: 50%;">
+        <div id='spin' style="justify-content: center; width: 3rem; height: 3rem;" class="spinner-border text-primary" role="status"></div>
+    </div>
+    <h1 style="text-align: center">Visualize Code Review Comments</h1>
+    <h3 style="text-align: center">Select Review Comment</h3>
+</div>
+
+<div class="select" style="display: flex; justify-content: center">
+    <select id="comment-selection">
+        {% for row in df1 %}
+            <option value="{{ loop.index }}">{{ row['id'] }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="container-fluid mt-3">
+    <div class="row ">
+        <div class="col col-lg-2 p-3 bg-secondary text-white">
+            <div class="sidebarSelect" style="display: flex">
+                <select id="feature-selection" style="width: 190px">
+                    <option value="0">SELECT FEATURE</option>
+                    <option value="1">TEXTUAL</option>
+                    <option value="2">EXTERNAL</option>
+                </select>
+            </div>
+
+            <div class="sidebarSelect" style="display: flex">
+                <select id="featureCor" style="width: 190px" ;>
+                    <option value="0">CORRELATION TYPE</option>
+                    <option value="1">TEXTUAL</option>
+                    <option value="2">EXTERNAL</option>
+                </select>
+            </div>
+            <div class="sidebarSelect" style="display: flex">
+                <select id="modelExplain" style="width: 190px" ;>
+                    <option value="0">EXPLANATION TYPE</option>
+                    <option value="1">GLOBAL</option>
+                    <option value="2">LOCAL</option>
+                </select>
+            </div>
+            <div class="divPadding">
+                <button id="predictBtn" type="button" style="width: 190px;font-size: 1.2rem" class="btn btn-success">
+                    predict
+                </button>
+            </div>
+        </div>
+
+        <div id="barViz" class="col-md-auto p-3 bg-light text-white"></div>
+        <div id="heatMap" class="col-md-auto p-3 bg-light text-white">
+        </div>
+        <div id="predictClass" class="col-md-auto p-3 bg-light text-white"></div>
+    </div>
+
+</div>
+
+<script>
+    const selectElem = document.getElementById('comment-selection');
+    const selectFr = document.getElementById('feature-selection');
+    const slectCorrType = document.getElementById('featureCor');
+    const slectExplType = document.getElementById('modelExplain')
+    const data =
+    {{ df | safe }}
+    const data2 =
+    {{ df1 | safe }}
+
+    const tex_cor_value =
+        {{ tex_cor_value|safe }};
+    const ext_cor_value =
+        {{ ext_cor_value|safe }};
+
+    const y_pred = {{ y_pred|safe }};
+    const baseValue =
+        {{ baseValue|safe }};
+    const normalizedExternalDf ={{ normalizedExternalDf|safe }};
+    const global_pos_shap_values ={{ global_pos_shap_values|safe }};
+    const global_neg_shap_values ={{ global_neg_shap_values|safe }};
+    var fetureIndex = 0;
+    selectFr.onchange = function (e) {
+        fetureIndex = e.target.value;
+        if (fetureIndex == 1) {
+            loadTextual();
+        } else if (fetureIndex == 0) {
+            clearBarSVG();
+        } else {
+            loadExternalFeatures();
+        }
+    }
+    slectCorrType.onchange = function (e) {
+        fetureIndex = e.target.value;
+        if (fetureIndex == 1) {
+            createTextualHeatMap();
+        } else if (fetureIndex == 0) {
+            clearSVG();
+        } else {
+            createExternalHeatMap();
+        }
+    }
+    slectExplType.onchange = function (e) {
+        fetureIndex = e.target.value;
+        if (fetureIndex == 1) {
+            generateGlobalExplanation();
+        } else if (fetureIndex == 0) {
+            clearPredictSVG();
+        } else {
+            generateLocalExplanation();
+        }
+    }
+</script>
+<script src="../static/barplot.js"></script>
+<script src="../static/heatmap.js"></script>
+<script src="../static/prediction.js"></script>
+<script src="../static/waterfallPlot.js"></script>
+<script src="../static/summaryPlot.js"></script>
+</body>
+
+</html>

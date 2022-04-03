@@ -1,0 +1,33 @@
+
+:root {
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+}
+
+select {
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+}
+.sidebarSelect {
+    width: 100%;
+    font-size: 1.05rem;
+    cursor: pointer;
+    line-height: 1.2;
+}
+.select {
+    width: 100%;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #ffffff;
+}
+div{
+    padding-top: 10px;
+}
