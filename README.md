@@ -6,7 +6,7 @@ Bootstrap, JavaScript D3 library for the front-end, and python for the server ba
 The flask requires Python 3.7+
 
 To run this project on your environment, please follow the below steps:
-1. Download and unzip the project or clone the project from this Gitlab link- https://git.cs.dal.ca/shuvo/Visualization-RevViz
+1. Download and unzip the project or clone the project.
 2. Install python (the latest version is recommended however python version >3.7 is sufficient) on your computer.
 3. Install the python flask package by using this command 'pip install flask'
 4. Install the python pandas package by using this command 'pip install pandas
