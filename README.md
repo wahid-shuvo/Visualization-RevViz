@@ -1,6 +1,6 @@
 # Visualization-RevViz
-RevViz- A visualization tool for presenting code review comments
-RevViz is a web-based tool that might help practitioners to explore the contribution and correlation among the different 
+RevViz- A visualization tool for presenting code review comments.
+It is a web-based tool that might help practitioners to explore the contribution and correlation among the different 
 features of code review comments as well as the interpretation of the prediction model. It is implemented with HTML, CSS, 
 Bootstrap, JavaScript D3 library for the front-end, and python for the server back-end.
 The flask requires Python 3.7+
