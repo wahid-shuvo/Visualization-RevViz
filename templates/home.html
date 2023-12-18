@@ -29,6 +29,12 @@
         {% endfor %}
     </select>
 </div>
+
+<div class="comment-text" style="margin-top: 5px; text-align: center;">
+    <p id="selected-comment-text"></p>
+</div>
+
+
 <div class="container-fluid mt-3">
     <div class="row ">
         <div class="col col-lg-2 p-3 bg-secondary text-white">
@@ -73,11 +79,14 @@
     const selectElem = document.getElementById('comment-selection');
     const selectFr = document.getElementById('feature-selection');
     const slectCorrType = document.getElementById('featureCor');
-    const slectExplType = document.getElementById('modelExplain')
+    const slectExplType = document.getElementById('modelExplain');
+    const selectedCommentText = document.getElementById('selected-comment-text');
     const data =
     {{ df | safe }}
     const data2 =
     {{ df1 | safe }}
+    const comment_text =
+    {{ comment_text | safe }}
 
     const tex_cor_value =
         {{ tex_cor_value|safe }};
@@ -91,6 +100,8 @@
     const global_pos_shap_values ={{ global_pos_shap_values|safe }};
     const global_neg_shap_values ={{ global_neg_shap_values|safe }};
     var fetureIndex = 0;
+    var selected_comment_index=0
+
     selectFr.onchange = function (e) {
         fetureIndex = e.target.value;
         if (fetureIndex == 1) {
@@ -121,6 +132,15 @@
             generateLocalExplanation();
         }
     }
+
+    selectElem.addEventListener('change', function (e) {
+        const selectedIndex = e.target.value - 1; // Adjusting for 0-based index
+        if (selectedIndex >= 0 && selectedIndex < comment_text.length) {
+            selectedCommentText.innerText = comment_text[selectedIndex];
+        } else {
+            selectedCommentText.innerText = "Comment text not available";
+        }
+    });
 </script>
 <script src="../static/barplot.js"></script>
 <script src="../static/heatmap.js"></script>
